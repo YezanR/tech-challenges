@@ -5,7 +5,8 @@
     },
     "autoload": {
         "psr-4": {
-            "IWD\\JOBINTERVIEW\\": "src/"
+            "IWD\\JOBINTERVIEW\\": "src/",
+            "IWD\\TEST": "tests/"
         }
     },
     "require-dev": {
