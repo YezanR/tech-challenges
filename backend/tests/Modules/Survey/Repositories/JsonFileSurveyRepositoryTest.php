@@ -1,17 +1,18 @@
 <?php
 
-namespace IWD\TESTModules\Survey\Repositories;
+namespace IWD\TEST\Modules\Survey\Repositories;
 
-use PHPUnit\Framework\TestCase;
 use IWD\JOBINTERVIEW\Modules\Survey\Repositories\JsonFileSurveyRepository;
+use IWD\TEST\Modules\ModuleTestCase;
 
-class JsonFileSurveyRepositoryTest extends TestCase
+class JsonFileSurveyRepositoryTest extends ModuleTestCase
 {
     protected $repository;
 
     public function setUp()
     {
-        $this->repository = new JsonFileSurveyRepository();
+        parent::setUp();
+        $this->repository = $this->app['survey.repository'];
     }
 
     /**

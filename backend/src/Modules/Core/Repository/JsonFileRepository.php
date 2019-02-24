@@ -1,17 +1,23 @@
 <?php
 
-namespace IWD\JOBINTERVIEW\Modules\Common\Repository;
+namespace IWD\JOBINTERVIEW\Modules\Core\Repository;
 
-abstract class JsonFileRepository
+use IWD\JOBINTERVIEW\Modules\Core\Repository\Contracts\Repository;
+
+abstract class JsonFileRepository implements Repository
 {
     protected $rootDataPath= 'data/'; 
+
+    abstract protected function getEntityClass();
+
+    abstract protected function getEntityJsonKeyName();
 
     public function getRootDataPath()
     {
         return $this->rootDataPath;
     }
 
-    public function parseFile(string $filename)
+    protected function parseFile(string $filename)
     {
         $content = file_get_contents($this->getRootDataPath() . $filename);
         $data = json_decode($content, true);
@@ -19,20 +25,20 @@ abstract class JsonFileRepository
         return $data;
     }
 
-    protected function getEntities()
+    public function get()
     {
-        $entities = [];
+        $items = [];
 
         $directory = new \DirectoryIterator($this->getRootDataPath());
 
         foreach ($directory as $fileInfo) {
             if (!$fileInfo->isDot()) {
                 $data = $this->parseFile($fileInfo->getFilename());
-                $entities[] = $this->arrayToEntity($data);
+                $items[] = $this->arrayToEntity($data);
             }
         }
 
-        return $entities;
+        return $items;
     }
 
     protected function arrayToEntity(array $array)
@@ -49,8 +55,4 @@ abstract class JsonFileRepository
 
         return $entity;
     }
-
-    abstract protected function getEntityClass();
-
-    abstract protected function getEntityJsonKeyName();
 }

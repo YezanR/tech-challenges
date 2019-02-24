@@ -2,7 +2,7 @@
 
 namespace IWD\JOBINTERVIEW\Modules\Survey\Repositories;
 
-use IWD\JOBINTERVIEW\Modules\Common\Repository\JsonFileRepository;
+use IWD\JOBINTERVIEW\Modules\Core\Repository\JsonFileRepository;
 use IWD\JOBINTERVIEW\Modules\Survey\Repositories\Contracts\SurveyRepository;
 use IWD\JOBINTERVIEW\Modules\Survey\Entities\Survey;
 
@@ -17,11 +17,4 @@ class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepos
     {
         return 'survey';
     }
-
-    public function get()
-    {
-        $result = $this->getEntities();
-
-        return $result;
-    }    
 }

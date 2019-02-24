@@ -2,7 +2,9 @@
 
 namespace IWD\JOBINTERVIEW\Modules\Survey\Repositories\Contracts;
 
-interface SurveyRepository
+use IWD\JOBINTERVIEW\Modules\Core\Repository\Contracts\Repository;
+
+interface SurveyRepository extends Repository
 {
-    public function get();
+
 }
