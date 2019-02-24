@@ -1,6 +1,6 @@
 <?php
 
-namespace IWD\JOBINTERVIEW\Modules\Core\Http\Response;
+namespace IWD\JOBINTERVIEW\Client\Webapp\Responses;
 
 use IWD\JOBINTERVIEW\Client\Webapp\Responses\Contracts\AppResponse;
 use IWD\JOBINTERVIEW\Client\Webapp\Responses\BaseResponse;
