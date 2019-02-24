@@ -1,6 +1,6 @@
 <?php
 
-namespace IWD\TEST\Modules\Survey\Providers;
+namespace IWD\JOBINTERVIEW\Modules\Survey\Providers;
 
 use Pimple\ServiceProviderInterface;
 use IWD\JOBINTERVIEW\Modules\Survey\Repositories\JsonFileSurveyRepository;
