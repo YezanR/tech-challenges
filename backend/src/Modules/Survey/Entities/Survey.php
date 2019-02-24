@@ -2,7 +2,9 @@
 
 namespace IWD\JOBINTERVIEW\Modules\Survey\Entities;
 
-class Survey implements \JsonSerializable
+use IWD\JOBINTERVIEW\Modules\Survey\Entities\Contracts\Identifiable;
+
+class Survey implements \JsonSerializable, Identifiable
 {
     private $name;
     
@@ -60,5 +62,10 @@ class Survey implements \JsonSerializable
             'name' => $this->getName(),
             'code' => $this->getCode()
         ];
+    }
+
+    public function getIdName(): string
+    {
+        return 'code';
     }
 }

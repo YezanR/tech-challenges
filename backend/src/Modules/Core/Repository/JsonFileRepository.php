@@ -33,12 +33,38 @@ abstract class JsonFileRepository implements Repository
 
         foreach ($directory as $fileInfo) {
             if (!$fileInfo->isDot()) {
-                $data = $this->parseFile($fileInfo->getFilename());
+                $data = $this->parseFile($fileInfo->getFilename()); 
                 $items[] = $this->arrayToEntity($data);
             }
         }
 
+        $items = $this->distinct($items);
+
         return $items;
+    }
+
+    protected function distinct(array $items)
+    {
+        $distinctItems = [];
+
+        $checkedIds = [];
+        foreach ($items as $item) {
+            $idName = $item->getIdName();
+            $id = $this->getEntityProperty($item, $idName);
+
+            if (!in_array($id, $checkedIds)) {
+                $distinctItems[] = $item;
+                $checkedIds[] = $id;
+            }
+        }
+
+        return $distinctItems;
+    }
+
+    private function getEntityProperty($entity, string $property)
+    {
+        $getterMethodName = 'get' . ucfirst($property);
+        return call_user_func([$entity, $getterMethodName]);
     }
 
     protected function arrayToEntity(array $array)
