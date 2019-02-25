@@ -3,6 +3,8 @@
 namespace IWD\JOBINTERVIEW\Modules\Core\Repository;
 
 use IWD\JOBINTERVIEW\Modules\Core\Repository\Contracts\Repository;
+use IWD\JOBINTERVIEW\Modules\Core\Helpers\File\Directory;
+use IWD\JOBINTERVIEW\Modules\Core\Helpers\Json\Parser;
 
 abstract class JsonFileRepository implements Repository
 {
@@ -19,9 +21,7 @@ abstract class JsonFileRepository implements Repository
 
     protected function parseFile(string $filename)
     {
-        $content = file_get_contents($this->getRootDataPath() . $filename);
-        $data = json_decode($content, true);
-
+        $data = Parser::parseFile($this->getRootDataPath() . $filename);
         return $data;
     }
 
@@ -29,14 +29,11 @@ abstract class JsonFileRepository implements Repository
     {
         $items = [];
 
-        $directory = new \DirectoryIterator($this->getRootDataPath());
-
-        foreach ($directory as $fileInfo) {
-            if (!$fileInfo->isDot()) {
-                $data = $this->parseFile($fileInfo->getFilename()); 
-                $items[] = $this->arrayToEntity($data);
-            }
-        }
+        $directory = new Directory($this->getRootDataPath());
+        $directory->eachFile(function ($fileInfo) use (&$items) {
+            $data = $this->parseFile($fileInfo->getFilename()); 
+            $items[] = $this->arrayToEntity($data);
+        });
 
         $items = $this->distinct($items);
 
