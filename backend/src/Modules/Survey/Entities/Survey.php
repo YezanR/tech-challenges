@@ -4,7 +4,7 @@ namespace IWD\JOBINTERVIEW\Modules\Survey\Entities;
 
 use IWD\JOBINTERVIEW\Modules\Survey\Entities\Contracts\Identifiable;
 
-class Survey implements \JsonSerializable, Identifiable
+class Survey extends Entity implements Identifiable
 {
     private $name;
     
@@ -64,8 +64,8 @@ class Survey implements \JsonSerializable, Identifiable
         ];
     }
 
-    public function getIdName(): string
+    public function getId()
     {
-        return 'code';
+        return $this->code;
     }
 }

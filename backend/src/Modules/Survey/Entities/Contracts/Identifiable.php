@@ -5,9 +5,9 @@ namespace IWD\JOBINTERVIEW\Modules\Survey\Entities\Contracts;
 interface Identifiable
 {
     /**
-     * Get identifier name
+     * Get identifier 
      *
      * @return string
      */
-    public function getIdName() : string;
+    public function getId();
 }

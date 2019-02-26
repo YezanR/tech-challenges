@@ -14,11 +14,6 @@ class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepos
         return Survey::class;
     }
 
-    protected function getEntityJsonKeyName()
-    {
-        return 'survey';
-    }
-
     public function get()
     {
         $items = [];
@@ -26,7 +21,7 @@ class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepos
         $directory = new Directory($this->getRootDataPath());
         $directory->eachFile(function ($fileInfo) use (&$items) {
             $data = $this->parseFile($fileInfo->getFilename()); 
-            $items[] = $this->arrayToEntity($data);
+            $items[] = $this->createEntity($data['survey']);
         });
 
         $items = $this->distinct($items);
@@ -41,8 +36,7 @@ class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepos
 
         $checkedIds = [];
         foreach ($items as $item) {
-            $idName = $item->getIdName();
-            $id = $this->getEntityProperty($item, $idName);
+            $id = $item->getId();
 
             if (!in_array($id, $checkedIds)) {
                 $distinctItems[] = $item;
@@ -60,7 +54,8 @@ class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepos
         $directory = new Directory($this->getRootDataPath());
         $directory->eachFile(function ($fileInfo) use (&$items, $attribute) {
             $data = $this->parseFile($fileInfo->getFilename()); 
-            $aggregate = $data['survey'][$attribute];
+            $survey = $this->createEntity($data['survey']);
+            $aggregate = $survey->getProperty($attribute);
             $items[$aggregate] = $items[$aggregate] ?? [];
             $items[$aggregate] = array_merge($items[$aggregate], $data['questions']);
         });

@@ -12,8 +12,6 @@ abstract class JsonFileRepository implements Repository
 
     abstract protected function getEntityClass();
 
-    abstract protected function getEntityJsonKeyName();
-
     public function getRootDataPath()
     {
         return $this->rootDataPath;
@@ -25,24 +23,9 @@ abstract class JsonFileRepository implements Repository
         return $data;
     }
 
-    protected function getEntityProperty($entity, string $property)
+    public function createEntity(array $attributes)
     {
-        $getterMethodName = 'get' . ucfirst($property);
-        return call_user_func([$entity, $getterMethodName]);
-    }
-
-    protected function arrayToEntity(array $array)
-    {
-        $entity = null;
-
-        $key = $this->getEntityJsonKeyName();
         $class = $this->getEntityClass();
-
-        $entityAttributes = $array[$key] ?? null;
-        if ($entityAttributes && is_array($entityAttributes)) {
-            $entity = new $class($entityAttributes);
-        }
-
-        return $entity;
+        return new $class($attributes);
     }
 }
