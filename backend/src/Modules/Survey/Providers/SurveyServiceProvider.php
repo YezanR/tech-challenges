@@ -27,5 +27,7 @@ class SurveyServiceProvider implements ServiceProviderInterface
         $app['answer.service'] = function () use ($app) {
             return new BasicAnswerService($app['answer.repository']);
         };
+
+        $app->register(new ControllerServiceProvider());
     }    
 }

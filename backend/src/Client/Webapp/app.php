@@ -13,7 +13,6 @@ use Silex\Application;
 use IWD\JOBINTERVIEW\Modules\Survey\Providers\SurveyServiceProvider;
 use Silex\Provider\ServiceControllerServiceProvider;
 use IWD\JOBINTERVIEW\Client\Webapp\Responses\JsonResponse;
-use IWD\JOBINTERVIEW\Modules\Survey\Providers\ControllerServiceProvider;
 
 $app = new Application();
 $app->after(function (Request $request, Response $response) {
@@ -25,17 +24,11 @@ $app['web.response'] = function () use ($app) {
     return new JsonResponse($app);
 };
 
-$app->get('/', function () use ($app) {
-    return 'Status OK';
-});
+require 'routes.php';
 
-$app->get('/surveys', 'survey.controller:index');
-
-$app->get('/answers', 'answer.controller:get');
-
-$app->register(new SurveyServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
-$app->register(new ControllerServiceProvider());
+// Load Survey module
+$app->register(new SurveyServiceProvider());
 
 $app->run();
 
