@@ -6,5 +6,5 @@ use IWD\JOBINTERVIEW\Modules\Core\Repository\Contracts\Repository;
 
 interface AnswerRepository extends Repository
 {
-    
+    public function getGroupBySurvey();
 }

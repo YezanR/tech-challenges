@@ -77,7 +77,7 @@ class Question extends Entity
     public function jsonSerialize()
     {
         return [
-            'label' => $this->getName(),
+            'label' => $this->getLabel(),
             'type' => $this->getType(),
             'options' => $this->getOptions(),
             'answer' => $this->answer
