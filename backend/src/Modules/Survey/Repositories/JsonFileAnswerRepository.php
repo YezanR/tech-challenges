@@ -19,7 +19,7 @@ class JsonFileAnswerRepository extends JsonFileRepository implements AnswerRepos
             $data = $this->parseFile($fileInfo->getFilename()); 
             
             $items[] = [
-                'survey' => $this->createEntity(Survey::class, $data['survey']),
+                'survey' => new Survey($data['survey']),
                 'questions' => $this->createQuestionEntities($data['questions'])
             ];
         });
@@ -31,7 +31,7 @@ class JsonFileAnswerRepository extends JsonFileRepository implements AnswerRepos
     {
         $questions = [];
         foreach ($questionsRaw as $questionRaw) {
-            $question = $this->createEntity(Question::class, $questionRaw);
+            $question = new Question($questionRaw);
             $question->answer = $questionRaw['answer'];
             $questions[] = $question;
         }

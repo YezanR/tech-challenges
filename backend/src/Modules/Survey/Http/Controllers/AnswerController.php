@@ -19,6 +19,7 @@ class AnswerController
 
     public function get()
     {
+        
         $surveys = $this->service->get();
         return $this->response->respondWithSuccess($surveys);
     }

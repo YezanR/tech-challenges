@@ -4,10 +4,7 @@ namespace IWD\JOBINTERVIEW\Modules\Survey\Repositories;
 
 use IWD\JOBINTERVIEW\Modules\Core\Repository\JsonFileRepository;
 use IWD\JOBINTERVIEW\Modules\Survey\Repositories\Contracts\SurveyRepository;
-use IWD\JOBINTERVIEW\Modules\Survey\Entities\Survey;
-use IWD\JOBINTERVIEW\Modules\Core\Helpers\File\Directory;
 use IWD\JOBINTERVIEW\Modules\Survey\Repositories\Contracts\AnswerRepository;
-use IWD\JOBINTERVIEW\Modules\Core\Helpers\Entity\Traits\CreatesEntity;
 
 class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepository
 {
