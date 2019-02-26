@@ -1,6 +1,6 @@
 <?php
 
-namespace IWD\JOBINTERVIEW\Client\Webapp\Controllers;
+namespace IWD\JOBINTERVIEW\Modules\Survey\Http\Controllers;
 
 use IWD\JOBINTERVIEW\Modules\Survey\Services\Contracts\SurveyService;
 use IWD\JOBINTERVIEW\Client\Webapp\Responses\Contracts\AppResponse;
@@ -22,6 +22,4 @@ class SurveyController
         $surveys = $this->service->get();
         return $this->response->respondWithSuccess($surveys);
     }
-
-    
 }

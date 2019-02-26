@@ -11,10 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Silex\Application;
 use IWD\JOBINTERVIEW\Modules\Survey\Providers\SurveyServiceProvider;
-use IWD\JOBINTERVIEW\Client\Webapp\Controllers\SurveyController;
 use Silex\Provider\ServiceControllerServiceProvider;
 use IWD\JOBINTERVIEW\Client\Webapp\Responses\JsonResponse;
-use IWD\JOBINTERVIEW\Client\Webapp\Controllers\AnswerController;
+use IWD\JOBINTERVIEW\Modules\Survey\Providers\ControllerServiceProvider;
 
 $app = new Application();
 $app->after(function (Request $request, Response $response) {
@@ -24,14 +23,6 @@ $app->after(function (Request $request, Response $response) {
 // @todo create a service provider for response (be carefull, you gonna need to have Silex\Application injected)
 $app['web.response'] = function () use ($app) {
     return new JsonResponse($app);
-};
-
-$app['survey.controller'] = function () use ($app) {
-    return new SurveyController($app['survey.service'], $app['web.response']);
-};
-
-$app['answer.controller'] = function () use ($app) {
-    return new AnswerController($app['answer.service'], $app['web.response']);
 };
 
 $app->get('/', function () use ($app) {
@@ -44,6 +35,7 @@ $app->get('/answers', 'answer.controller:get');
 
 $app->register(new SurveyServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
+$app->register(new ControllerServiceProvider());
 
 $app->run();
 
