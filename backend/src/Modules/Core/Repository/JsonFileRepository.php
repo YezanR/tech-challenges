@@ -25,7 +25,7 @@ abstract class JsonFileRepository implements Repository
         return $data;
     }
 
-    private function getEntityProperty($entity, string $property)
+    protected function getEntityProperty($entity, string $property)
     {
         $getterMethodName = 'get' . ucfirst($property);
         return call_user_func([$entity, $getterMethodName]);
