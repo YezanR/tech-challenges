@@ -25,21 +25,6 @@ abstract class JsonFileRepository implements Repository
         return $data;
     }
 
-    public function get()
-    {
-        $items = [];
-
-        $directory = new Directory($this->getRootDataPath());
-        $directory->eachFile(function ($fileInfo) use (&$items) {
-            $data = $this->parseFile($fileInfo->getFilename()); 
-            $items[] = $this->arrayToEntity($data);
-        });
-
-        $items = $this->distinct($items);
-
-        return $items;
-    }
-
     protected function distinct(array $items)
     {
         $distinctItems = [];

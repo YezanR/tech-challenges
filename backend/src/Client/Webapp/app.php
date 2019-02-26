@@ -35,6 +35,8 @@ $app->get('/', function () use ($app) {
 
 $app->get('/surveys', 'survey.controller:index');
 
+$app->get('/answers', 'survey.controller:getAnswers');
+
 $app->register(new SurveyServiceProvider());
 $app->register(new ServiceControllerServiceProvider());
 

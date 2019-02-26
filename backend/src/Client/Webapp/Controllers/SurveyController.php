@@ -22,4 +22,10 @@ class SurveyController
         $surveys = $this->service->get();
         return $this->response->respondWithSuccess($surveys);
     }
+
+    public function getAnswers()
+    {
+        $surveys = $this->service->getAnswers();
+        return $this->response->respondWithSuccess($surveys);
+    }
 }
