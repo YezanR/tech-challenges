@@ -6,29 +6,30 @@ use IWD\JOBINTERVIEW\Modules\Core\Repository\JsonFileRepository;
 use IWD\JOBINTERVIEW\Modules\Survey\Repositories\Contracts\SurveyRepository;
 use IWD\JOBINTERVIEW\Modules\Survey\Entities\Survey;
 use IWD\JOBINTERVIEW\Modules\Core\Helpers\File\Directory;
+use IWD\JOBINTERVIEW\Modules\Survey\Repositories\Contracts\AnswerRepository;
+use IWD\JOBINTERVIEW\Modules\Core\Helpers\Entity\Traits\CreatesEntity;
 
 class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepository
 {
-    protected function getEntityClass()
+    protected $answerRepository;
+
+    public function __construct(AnswerRepository $answerRepository)
     {
-        return Survey::class;
+        $this->answerRepository = $answerRepository;
     }
 
     public function get()
     {
-        $items = [];
+        $surveys = [];
 
-        $directory = new Directory($this->getRootDataPath());
-        $directory->eachFile(function ($fileInfo) use (&$items) {
-            $data = $this->parseFile($fileInfo->getFilename()); 
-            $items[] = $this->createEntity($data['survey']);
-        });
+        $surveysAnswers = $this->answerRepository->get();
 
-        $items = $this->distinct($items);
+        $surveys = array_column($surveysAnswers, 'survey');
 
-        return $items;
+        $surveys = $this->distinct($surveys);
+
+        return $surveys;
     }
-
 
     protected function distinct(array $items)
     {
@@ -45,21 +46,5 @@ class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepos
         }
 
         return $distinctItems;
-    }
-
-    public function getGroupBy(string $attribute)
-    {
-        $items = [];
-        
-        $directory = new Directory($this->getRootDataPath());
-        $directory->eachFile(function ($fileInfo) use (&$items, $attribute) {
-            $data = $this->parseFile($fileInfo->getFilename()); 
-            $survey = $this->createEntity($data['survey']);
-            $aggregate = $survey->getProperty($attribute);
-            $items[$aggregate] = $items[$aggregate] ?? [];
-            $items[$aggregate] = array_merge($items[$aggregate], $data['questions']);
-        });
-        
-        return $items;
     }
 }

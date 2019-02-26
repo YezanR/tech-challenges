@@ -5,12 +5,13 @@ namespace IWD\JOBINTERVIEW\Modules\Core\Repository;
 use IWD\JOBINTERVIEW\Modules\Core\Repository\Contracts\Repository;
 use IWD\JOBINTERVIEW\Modules\Core\Helpers\File\Directory;
 use IWD\JOBINTERVIEW\Modules\Core\Helpers\Json\Parser;
+use IWD\JOBINTERVIEW\Modules\Core\Helpers\Entity\Traits\CreatesEntity;
 
 abstract class JsonFileRepository implements Repository
 {
+    use CreatesEntity;
+    
     protected $rootDataPath= 'data/'; 
-
-    abstract protected function getEntityClass();
 
     public function getRootDataPath()
     {
@@ -21,11 +22,5 @@ abstract class JsonFileRepository implements Repository
     {
         $data = Parser::parseFile($this->getRootDataPath() . $filename);
         return $data;
-    }
-
-    public function createEntity(array $attributes)
-    {
-        $class = $this->getEntityClass();
-        return new $class($attributes);
     }
 }

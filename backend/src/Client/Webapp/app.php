@@ -14,6 +14,7 @@ use IWD\JOBINTERVIEW\Modules\Survey\Providers\SurveyServiceProvider;
 use IWD\JOBINTERVIEW\Client\Webapp\Controllers\SurveyController;
 use Silex\Provider\ServiceControllerServiceProvider;
 use IWD\JOBINTERVIEW\Client\Webapp\Responses\JsonResponse;
+use IWD\JOBINTERVIEW\Client\Webapp\Controllers\AnswerController;
 
 $app = new Application();
 $app->after(function (Request $request, Response $response) {
@@ -29,13 +30,17 @@ $app['survey.controller'] = function () use ($app) {
     return new SurveyController($app['survey.service'], $app['web.response']);
 };
 
+$app['answer.controller'] = function () use ($app) {
+    return new AnswerController($app['answer.service'], $app['web.response']);
+};
+
 $app->get('/', function () use ($app) {
     return 'Status OK';
 });
 
 $app->get('/surveys', 'survey.controller:index');
 
-$app->get('/answers', 'survey.controller:getAnswers');
+$app->get('/answers', 'answer.controller:get');
 
 $app->register(new SurveyServiceProvider());
 $app->register(new ServiceControllerServiceProvider());

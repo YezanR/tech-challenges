@@ -2,26 +2,24 @@
 
 namespace IWD\JOBINTERVIEW\Client\Webapp\Controllers;
 
-use IWD\JOBINTERVIEW\Modules\Survey\Services\Contracts\SurveyService;
+use IWD\JOBINTERVIEW\Modules\Survey\Services\Contracts\AnswerService;
 use IWD\JOBINTERVIEW\Client\Webapp\Responses\Contracts\AppResponse;
 
-class SurveyController
+class AnswerController
 {
     protected $service;
 
     protected $response;
 
-    public function __construct(SurveyService $surveyService, AppResponse $response)
+    public function __construct(AnswerService $answerService, AppResponse $response)
     {
-        $this->service = $surveyService;
+        $this->service = $answerService;
         $this->response = $response;
     }
 
-    public function index()
+    public function get()
     {
         $surveys = $this->service->get();
         return $this->response->respondWithSuccess($surveys);
     }
-
-    
 }
