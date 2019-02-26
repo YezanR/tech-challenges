@@ -34,6 +34,25 @@ class JsonFileSurveyRepository extends JsonFileRepository implements SurveyRepos
         return $items;
     }
 
+
+    protected function distinct(array $items)
+    {
+        $distinctItems = [];
+
+        $checkedIds = [];
+        foreach ($items as $item) {
+            $idName = $item->getIdName();
+            $id = $this->getEntityProperty($item, $idName);
+
+            if (!in_array($id, $checkedIds)) {
+                $distinctItems[] = $item;
+                $checkedIds[] = $id;
+            }
+        }
+
+        return $distinctItems;
+    }
+
     public function getGroupBy(string $attribute)
     {
         $items = [];
